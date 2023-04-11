@@ -3,27 +3,76 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Key Pair Generator</title>
-</head>
+    <title>Generator Ključev</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+        <style>
+            .form-control {
+                background-color: #f2f2f2;
+                border: none;
+                border-radius: 5px;
+                height: 50px;
+                font-size: 18px;
+                box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+                width: 100%;
+                max-width: 400px; /* added max-width for responsive design */
+            }
+            .form-control:focus {
+                box-shadow: none;
+                border: 2px solid #007bff;
+            }
+            .btn-primary {
+                background-color: #007bff;
+                border: none;
+                border-radius: 5px;
+                padding: 10px 30px;
+                font-size: 18px;
+                font-weight: 500;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+                transition: all 0.2s ease-in-out;
+                width: 100%;
+                max-width: 400px; /* added max-width for responsive design */
+            }
+            .btn-primary:hover {
+                background-color: #0062cc;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+            }
+            .btn-primary:focus {
+                box-shadow: none;
+            }
+        </style>
+        </head>
 
 <body>
-    <h1>Generiraj par ključev</h1>
-    <form>
-        <label for="name">Ime:</label>
-        <input type="text" id="name" name="name" required><br>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br>
-        <label for="passphrase">Geslo:</label>
-        <input type="password" id="passphrase" name="passphrase" required><br>
-        <label for="curve">Curve:</label>
-        <select id="curve" name="curve">
-            <option value="ed25519">ed25519</option>
-            <option value="p256">p256</option>
-            <option value="secp256k1">secp256k1</option>
-        </select><br>
-        <input type="button" value="Generiraj" id="generiraj">
-    </form>
-    <div id="output"></div>
+    <div class="container mt-4 text-center">
+        <h2 class="text-center mb-4 text-primary">Generator Ključev</h2>
+        <form>
+            <div class="form-group">
+                <label for="name">Ime:</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="passphrase">Geslo:</label>
+                <input type="password" class="form-control" id="passphrase" name="passphrase" required>
+            </div>
+            <div class="form-group">
+                <label for="curve">Curve:</label>
+                <select class="form-control" id="curve" name="curve">
+                    <option value="ed25519">ed25519</option>
+                    <option value="p256">p256</option>
+                    <option value="secp256k1">secp256k1</option>
+                </select>
+            </div>
+            <button type="button" class="btn btn-primary text-primary" id="generiraj">Generiraj</button>
+            <br>
+        </form>
+        <div id="output" class="text-center mb-4 text-primary" style="margin-top: 10px;"></div>
+    </div>
     <script src="jquery.min.js"></script>
     <script src="openpgp.js"></script>
     <script src="popup.js"></script>
