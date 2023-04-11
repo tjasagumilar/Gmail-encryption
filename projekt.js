@@ -3,7 +3,7 @@ InboxSDK.load('2', 'sdk_GmailAPI_f30f8371ce').then(function (sdk) {
     sdk.Compose.registerComposeViewHandler(function (composeView) {
 
         composeView.addButton({
-            title: "Encrypt message",
+            title: "Šifriraj Sporočilo",
             iconUrl: 'https://pbs.twimg.com/profile_images/599482221402161152/ZIUk-8TB.png',
             onClick: async function (event) {
 
@@ -44,7 +44,7 @@ InboxSDK.load('2', 'sdk_GmailAPI_f30f8371ce').then(function (sdk) {
         MessageView.addToolbarButton({
 
             section: 'MORE',
-            title: 'Decrypt',
+            title: 'Dešifriraj',
             onClick: function () {
 
                 const sporociloKriptirano = MessageView.getBodyElement(); //dela
