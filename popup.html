@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Key Pair Generator</title>
+</head>
+
+<body>
+    <h1>Generiraj par ključev</h1>
+    <form>
+        <label for="name">Ime:</label>
+        <input type="text" id="name" name="name" required><br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
+        <label for="passphrase">Geslo:</label>
+        <input type="password" id="passphrase" name="passphrase" required><br>
+        <label for="curve">Curve:</label>
+        <select id="curve" name="curve">
+            <option value="ed25519">ed25519</option>
+            <option value="p256">p256</option>
+            <option value="secp256k1">secp256k1</option>
+        </select><br>
+        <input type="button" value="Generiraj" id="generiraj">
+    </form>
+    <div id="output"></div>
+    <script src="jquery.min.js"></script>
+    <script src="openpgp.js"></script>
+    <script src="popup.js"></script>
+</body>
+
+</html>

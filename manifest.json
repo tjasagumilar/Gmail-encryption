@@ -1,0 +1,32 @@
+{
+  "manifest_version": 2,
+  "name": "Šifriranje e-pošte",
+  "version": "1.0",
+  "description": "Chrome vtičnik za šifriranje e-pošte za Gmail",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://mail.google.com/*",
+        "https://inbox.google.com/*"
+      ],
+      "js": [
+        "jquery.min.js",
+        "inboxsdk.js",
+        "popup.js",
+        "openpgp.js",
+        "projekt.js"
+      ]
+    }
+  ],
+  "options_ui": {
+    "page": "popup.html",
+    "chrome_style": true
+  },
+  "permissions": [
+    "storage"
+  ],
+  "browser_action": {
+    "default_title": "Šifriranje e-pošte",
+    "default_popup": "popup.html"
+  }
+}
