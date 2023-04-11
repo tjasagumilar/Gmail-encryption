@@ -46,10 +46,10 @@ InboxSDK.load('2', 'sdk_GmailAPI_f30f8371ce').then(function (sdk) {
             onClick: async function (event) {
 
                 const sporocilo = event.composeView.getTextContent(); //dela
-               // console.log(sporocilo);
+                // console.log(sporocilo);
 
                 const posiljatelj = event.composeView.getFromContact().emailAddress; //dela
-               // console.log(posiljatelj);
+                // console.log(posiljatelj);
 
                 var privateKeyPosiljateljaArmored = null;
                 var passphrase = null;
@@ -64,18 +64,18 @@ InboxSDK.load('2', 'sdk_GmailAPI_f30f8371ce').then(function (sdk) {
                         }
                     }
 
-                    const privateKey = await openpgp.decryptKey({ 
+                    const privateKey = await openpgp.decryptKey({
                         privateKey: await openpgp.readPrivateKey({ armoredKey: privateKeyPosiljateljaArmored }),
                         passphrase
                     });
 
                     const unsignedMessage = await openpgp.createCleartextMessage({ text: sporocilo });
                     const cleartextMessage = await openpgp.sign({
-                        message: unsignedMessage, 
+                        message: unsignedMessage,
                         signingKeys: privateKey
                     });
 
-                    event.composeView.setBodyText(cleartextMessage);
+                    event.composeView.setBodyText(sporocilo + " " + cleartextMessage);
 
                 });
 
@@ -92,10 +92,10 @@ InboxSDK.load('2', 'sdk_GmailAPI_f30f8371ce').then(function (sdk) {
             title: 'Decrypt',
             onClick: function () {
 
-                const sporociloKriptirano = MessageView.getBodyElement(); //dela
+                const sporociloKriptirano = MessageView.getBodyElement();
                 console.log(sporociloKriptirano.textContent);
 
-                const prejemniki = MessageView.getRecipientEmailAddresses(); //dela
+                const prejemniki = MessageView.getRecipientEmailAddresses();
                 const prejemnik = prejemniki[0];
                 console.log(prejemnik);
 
@@ -111,6 +111,7 @@ InboxSDK.load('2', 'sdk_GmailAPI_f30f8371ce').then(function (sdk) {
                             passphrase = uporabniki[i].passphrase;
                         }
                     }
+
 
                     const privateKey = await openpgp.decryptKey({ //dela
                         privateKey: await openpgp.readPrivateKey({ armoredKey: privateKeyPrejemnikaArmored }),
@@ -142,7 +143,58 @@ InboxSDK.load('2', 'sdk_GmailAPI_f30f8371ce').then(function (sdk) {
 
             section: 'MORE',
             title: 'Verify',
-            onClick: function () {
+            onClick: async function () {
+
+                const sporociloPodpisano = MessageView.getBodyElement().textContent; // text + podpis
+                //console.log(sporociloPodpisano);
+
+                const signatureStart = sporociloPodpisano.indexOf('-----BEGIN PGP SIGNED MESSAGE');
+                const signatureEnd = sporociloPodpisano.indexOf('END PGP SIGNATURE-----') + 'END PGP SIGNATURE-----'.length;
+                const podpis = sporociloPodpisano.slice(signatureStart, signatureEnd); // samo podpis
+                console.log(podpis);
+
+                const start = sporociloPodpisano.indexOf('-----BEGIN PGP SIGNATURE');
+                const headerEnd = sporociloPodpisano.indexOf('\n\n') + 2; 
+                const content = sporociloPodpisano.substring(headerEnd, start);
+
+
+                const posiljatelj = MessageView.getSender().emailAddress;
+                //console.log(posiljatelj);
+
+                var publicKeyPosiljateljaArmored = null;
+
+                chrome.storage.sync.get('vsiuporabniki', async function (result) {
+                    var uporabniki = result.vsiuporabniki;
+
+                    for (var i = 0; i < uporabniki.length; i++) {
+                        if (uporabniki[i].email == posiljatelj) {
+                            publicKeyPosiljateljaArmored = uporabniki[i].publicKey;
+                        }
+                    }
+
+                    const publicKeyPosiljatelja = await openpgp.readKey({ armoredKey: publicKeyPosiljateljaArmored });
+
+
+                    const signedMessage = await openpgp.readCleartextMessage({
+                        cleartextMessage: podpis
+                    });
+
+                    const verificationResult = await openpgp.verify({
+                        message: signedMessage,
+                        verificationKeys: publicKeyPosiljatelja
+                    });
+
+                    const { verified, keyID } = verificationResult.signatures[0];
+                    try {
+                        await verified; // throws on invalid signature
+                        console.log('Signed by key id ' + keyID.toHex());
+                        alert("Uspešna verifikacija!");
+                        MessageView.getBodyElement().textContent = content;
+                    } catch (e) {
+                        throw new Error('Signature could not be verified: ' + e.message);
+                    }
+
+                });
 
 
             }
