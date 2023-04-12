@@ -41,8 +41,8 @@ InboxSDK.load('2', 'sdk_GmailAPI_f30f8371ce').then(function (sdk) {
     sdk.Compose.registerComposeViewHandler(function (composeView) {
 
         composeView.addButton({
-            title: "Sign message",
-            iconUrl: 'https://pbs.twimg.com/profile_images/599482221402161152/ZIUk-8TB.png',
+            title: "Podpiši Sporočilo",
+            iconUrl: 'https://cdn-icons-png.flaticon.com/512/2983/2983677.png',
             onClick: async function (event) {
 
                 const sporocilo = event.composeView.getTextContent(); //dela
@@ -142,7 +142,7 @@ InboxSDK.load('2', 'sdk_GmailAPI_f30f8371ce').then(function (sdk) {
         MessageView.addToolbarButton({
 
             section: 'MORE',
-            title: 'Verify',
+            title: 'Preveri Podpis',
             onClick: async function () {
 
                 const sporociloPodpisano = MessageView.getBodyElement().textContent; // text + podpis
