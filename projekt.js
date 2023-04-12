@@ -3,7 +3,7 @@ InboxSDK.load('2', 'sdk_GmailAPI_f30f8371ce').then(function (sdk) {
     sdk.Compose.registerComposeViewHandler(function (composeView) {
 
         composeView.addButton({
-            title: "Šifriraj Sporočilo",
+            title: "Šifriraj sporočilo",
             iconUrl: 'https://pbs.twimg.com/profile_images/599482221402161152/ZIUk-8TB.png',
             onClick: async function (event) {
 
@@ -41,7 +41,7 @@ InboxSDK.load('2', 'sdk_GmailAPI_f30f8371ce').then(function (sdk) {
     sdk.Compose.registerComposeViewHandler(function (composeView) {
 
         composeView.addButton({
-            title: "Podpiši Sporočilo",
+            title: "Podpiši sporočilo",
             iconUrl: 'https://cdn-icons-png.flaticon.com/512/2983/2983677.png',
             onClick: async function (event) {
 
@@ -142,7 +142,7 @@ InboxSDK.load('2', 'sdk_GmailAPI_f30f8371ce').then(function (sdk) {
         MessageView.addToolbarButton({
 
             section: 'MORE',
-            title: 'Preveri Podpis',
+            title: 'Preveri podpis',
             onClick: async function () {
 
                 const sporociloPodpisano = MessageView.getBodyElement().textContent; // text + podpis
