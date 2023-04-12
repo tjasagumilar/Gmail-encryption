@@ -11,7 +11,7 @@ async function generateKeys() {
     const { privateKey, publicKey, revocationCertificate } = await openpgp.generateKey({
         type: 'ecc',
         userIDs: [{ name: name, email: email }],
-        curve: 'curve25519',
+        curve: curve,
         passphrase: passphrase,
         format: 'armored'
     });
